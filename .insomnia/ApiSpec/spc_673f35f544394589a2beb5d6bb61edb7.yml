@@ -1,0 +1,1037 @@
+_id: spc_673f35f544394589a2beb5d6bb61edb7
+type: ApiSpec
+parentId: wrk_010df3bcc5274999b7d14d9789c15901
+modified: 1631688962397
+created: 1631683517738
+fileName: MemoGame
+contents: >-
+  {
+      "openapi": "3.0.0",
+      "info": {
+          "version": "1.0.0",
+          "title": "MemoGame API",
+          "description": "MemoGame API a project made for testing capabilities",
+          "contact": {
+              "name": "DANIELS-ROTH Stan",
+              "url": "https://daniels-roth-stan.fr",
+              "email": "contact@daniels-roth-stan.fr"
+          },
+          "license": {
+              "name": "GNU GPL v3",
+              "url": "https://www.gnu.org/licenses/gpl-3.0.fr.html"
+          }
+      },
+      "servers": [
+          {
+              "url": "http://localhost:3000/api/v1",
+              "description": "Dev Server"
+          }
+      ],
+      "tags": [
+          {
+              "name": "user",
+              "description": "Everything about users"
+          },
+          {
+              "name": "game",
+              "description": "Everything about games"
+          }
+      ],
+      "paths": {
+          "/user/login": {
+              "post": {
+                  "tags": [
+                      "user"
+                  ],
+                  "summary": "Log user in",
+                  "description": "",
+                  "requestBody": {
+                      "required": true,
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/UserLogin"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructure"
+                                          },
+                                          "accessToken": {
+                                              "type": "string"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Sent datas does not match prerequisites"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized - Invalid login credentials.",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Invalid login credentials."
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "User not found"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "/user/signup": {
+              "post": {
+                  "tags": [
+                      "user"
+                  ],
+                  "summary": "Signing up",
+                  "description": "",
+                  "requestBody": {
+                      "required": true,
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/UserSignup"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "user": {
+                                              "$ref": "#/components/schemas/UserStructure"
+                                          },
+                                          "accessToken": {
+                                              "type": "string"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Sent datas does not match prerequisites"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "409": {
+                          "description": "Conflict",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Username or email already used"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "/user/": {
+              "get": {
+                  "tags": [
+                      "user"
+                  ],
+                  "summary": "Get all users",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "array",
+                                      "items": {
+                                          "$ref": "#/components/schemas/UserStructure"
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                  }
+              },
+              "post": {
+                  "tags": [
+                      "user"
+                  ],
+                  "summary": "Create user",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "requestBody": {
+                      "required": true,
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/UserCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "$ref": "#/components/schemas/UserStructure"
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Sent datas does not match prerequisites"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "409": {
+                          "description": "Conflict",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Username or email already used"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "/user/{userId}": {
+              "get": {
+                  "tags": [
+                      "user"
+                  ],
+                  "summary": "Get a user",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "parameters": [{
+                      "name": "userId",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "number",
+                          example: 4
+                      }
+                  }],
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "$ref": "#/components/schemas/UserStructure"
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "User not found"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "put": {
+                  "tags": [
+                      "user"
+                  ],
+                  "summary": "Update a user",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "parameters": [{
+                      "name": "userId",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "number",
+                          example: 4
+                      }
+                  }],
+                  "requestBody": {
+                      "required": true,
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/UserCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "$ref": "#/components/schemas/UserStructure"
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Sent datas does not match prerequisites"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "User not found"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "409": {
+                          "description": "Conflict",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Username or email already used"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "delete": {
+                  "tags": [
+                      "user"
+                  ],
+                  "summary": "Delete a user",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "parameters": [{
+                      "name": "userId",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "number",
+                          example: 4
+                      }
+                  }],
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "$ref": "#/components/schemas/UserStructure"
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "User not found"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+          },
+          "/game/": {
+              "get": {
+                  "tags": [
+                      "game"
+                  ],
+                  "summary": "Get all games",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "array",
+                                      "items": {
+                                          "$ref": "#/components/schemas/GameStructure"
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                  }
+              },
+              "post": {
+                  "tags": [
+                      "game"
+                  ],
+                  "summary": "Create a game",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "requestBody": {
+                      "required": true,
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/GameCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "201": {
+                          "description": "Created",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "$ref": "#/components/schemas/GameStructure"
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Sent datas does not match prerequisites"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "/game/{gameId}": {
+              "get": {
+                  "tags": [
+                      "game"
+                  ],
+                  "summary": "Get a game",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "parameters": [{
+                      "name": "gameId",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "number",
+                          example: 4
+                      }
+                  }],
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "$ref": "#/components/schemas/GameStructure"
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Game not found"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "put": {
+                  "tags": [
+                      "game"
+                  ],
+                  "summary": "Update a game",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "parameters": [{
+                      "name": "gameId",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "number",
+                          example: 4
+                      }
+                  }],
+                  "requestBody": {
+                      "required": true,
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/GameCreation"
+                              }
+                          }
+                      }
+                  },
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "$ref": "#/components/schemas/GameStructure"
+                                  }
+                              }
+                          }
+                      },
+                      "400": {
+                          "description": "Bad Request",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Sent datas does not match prerequisites"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Game not found"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+              "delete": {
+                  "tags": [
+                      "game"
+                  ],
+                  "summary": "Delete a game",
+                  "description": "",
+                  "security": [{ "jwt": [] }],
+                  "parameters": [{
+                      "name": "gameId",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "number",
+                          example: 4
+                      }
+                  }],
+                  "responses": {
+                      "200": {
+                          "description": "OK",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "$ref": "#/components/schemas/GameStructure"
+                                  }
+                              }
+                          }
+                      },
+                      "401": {
+                          "description": "Unauthorized",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Unauthorized"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      },
+                      "404": {
+                          "description": "Not Found",
+                          "content": {
+                              "application/json": {
+                                  "schema": {
+                                      "type": "object",
+                                      "properties": {
+                                          "message": {
+                                              "type": "string",
+                                              "example": "Game not found"
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  }
+              },
+          }
+      },
+      "components": {
+          "schemas": {
+              "UserStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "firstName": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "lastName": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "username": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "email": {
+                          "type": "string",
+                          "format": "email",
+                          "pattern": "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,64}$"
+                      },
+                      "password": {
+                          "type": "string",
+                          "format": "password",
+                          "minLength": 8
+                      },
+                      "avatar": {
+                          type: "string",
+                          format: "url"
+                      },
+                      "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                      },
+                      "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                      }
+                  }
+              },
+              "UserCreation": {
+                  "type": "object",
+                  "properties": {
+                      "firstName": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "lastName": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "username": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "email": {
+                          "type": "string",
+                          "format": "email",
+                          "pattern": "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,64}$"
+                      },
+                      "password": {
+                          "type": "string",
+                          "format": "password",
+                          "minLength": 8
+                      },
+                      "avatar": {
+                          type: "string",
+                          format: "url"
+                      }
+                  },
+                  "required": ["firstName", "lastName", "username", "email", "password", "avatar"]
+              },
+              "UserLogin": {
+                  "type": "object",
+                  "properties": {
+                      "email": {
+                          "type": "string",
+                          "format": "email",
+                          "pattern": "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,64}$"
+                      },
+                      "password": {
+                          "type": "string",
+                          "format": "password",
+                          "minLength": 8
+                      }
+                  },
+                  "required": ["email", "password"]
+              },
+              "UserSignup": {
+                  "type": "object",
+                  "properties": {
+                      "firstName": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "lastName": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "username": {
+                          "type": "string",
+                          "maxLength": 63
+                      },
+                      "email": {
+                          "type": "string",
+                          "format": "email",
+                          "pattern": "^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,64}$"
+                      },
+                      "password": {
+                          "type": "string",
+                          "format": "password",
+                          "minLength": 8
+                      },
+                      "avatar": {
+                          type: "string",
+                          format: "url"
+                      }
+                  },
+                  "required": ["firstName", "lastName", "username", "email", "password", "avatar"]
+              },
+              "GameStructure": {
+                  "type": "object",
+                  "properties": {
+                      "id": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "userId": {
+                          "type": "integer",
+                          "format": "int64"
+                      },
+                      "status": {
+                          type: "boolean",
+                          "nullable": true,
+                      },
+                      "timeLeft": {
+                          type: "number",
+                      },
+                      "createdAt": {
+                          "type": "string",
+                          "format": "date-time"
+                      },
+                      "updatedAt": {
+                          "type": "string",
+                          "format": "date-time"
+                      }
+                  }
+              },
+              "GameCreation": {
+                  "type": "object",
+                  "properties": {
+                      "status": {
+                          type: "boolean",
+                          "nullable": true,
+                      },
+                      "timeLeft": {
+                          "type": "number",
+                          "minimum": 0,
+                      }
+                  },
+                  "required": ["status", "timeLeft"]
+              }
+          },
+          "securitySchemes": {
+              "jwt": {
+                  "type": "http",
+                  "scheme": "bearer",
+                  "bearerFormat": "JWT"
+              }
+          }
+      }
+  }
+contentType: yaml
